@@ -1,64 +1,42 @@
-class PersonalAssistant:
+import json
+from PersonalAssistant import PersonalAssistant
 
-  def __init__(self):
-    self.contacts = {
-        'Ann': 'Marketing Coordinator',
-        'Chelsea': 'Software Developer',
-        'Nichole': 'Sales Representative',
-        'Max': 'Technical Writer'
-    }
-    self.todos = []
+with open("todo.json", "r") as todos:
+    todo_list = json.load(todos)
+    assistant = PersonalAssistant(todo_list)
 
-  def add_todo(self, new_item):
-    self.todos.append(new_item)
+done = False
 
-  def remove_todo(self,todo_item):
-    if todo_item in self.todos:
-      index = self.todos.index(todo_item)
-      self.todos.pop(index)
+while not done:
+    user_command = input("""
+How can I help you?
+
+    **** To-dos *****
+    1: Add a to-do
+    2: Remove a to-do
+    3: Get to-do list
+
+    Select a number or type 'Exit' to quit: 
+    
+    """)
+    # Add Todo
+    if user_command == "1":
+        user_input = input("Item to add to to-do list: ")
+        assistant.add_todo(user_input)
+    # Remove Todo
+    elif user_command == "2":
+        print(f"Your current todos: {assistant.get_todos()}")
+        user_input = input("Item to remove from to-do list: ")
+        print(f"\n {assistant.remove_todo(user_input)}")
+    # Get Todos
+    elif user_command == "3":
+        print("\nYour to-do list")
+        print(f"\n {assistant.get_todos()}")
+    elif user_command == "exit" or user_command == "Exit" or user_command == "EXIT":
+        done = True
+        print("\nGoodbye, see you soon!")
     else:
-      print("Item not found in to-do list.")
+        print("\nNot a valid command.")
 
-  
-  def get_todos(self):
-    return self.todos
-  
-  def get_birthday(self, name):
-    if (name.lower() == "robin"):
-        print("Robin's birthday in July 4th. Remember to buy a gift!")
-    elif (name.lower() == "alice"):
-        print("Alice's birthday is on December 12th. Don't forget to send her a card!")
-    elif (name.lower() == "john"):
-        print("John's birthday is on March 22nd. Maybe plan a surprise party!")
-    elif (name.lower() == "emma"):
-        print("Emma's birthday is on September 15th. Consider getting her flowers & chocolates!")
-    elif (name.lower() == "Kwesi"):
-        print("Kwesi's birthday is on November 30th. Get him a replacement for the lunch you ate out of the work fridge?")
-    else:
-        print("Sorry, I don't have information on that person's birthday. Please try adding more people to the list, or search another name.")
-
-
-
-
-  def get_contact(self, name):
-    if name in self.contacts:
-      return self.contacts[name]
-    else:
-      return 'Not Found'
-
-
-assistant = PersonalAssistant()
-assistant.add_todo("Finish the react project")
-assistant.add_todo("Email the project report")
-assistant.add_todo("Scrum Meeting at 10 AM")
-assistant.remove_todo("Email the project report")
-assistant.add_todo("Clear schedule for team lunch on Friday")
-print(assistant.get_contact("bob"))
-print(assistant.get_contact("Wilfred II"))
-print(assistant.get_todos())
-print(assistant.get_birthday("Robin"))
-
-
-
-
-
+with open("todo.json", "w") as write_todos:
+    json.dump(assistant.get_todos(), write_todos)

@@ -1,3 +1,5 @@
 { pkgs }: {
-  deps = [ ];
+  deps = [
+    pkgs.replitPackages.prybar-python3
+  ];
 }
