@@ -38,11 +38,9 @@ How can I help you?
     elif user_command == "3":
         print("\nYour to-do list")
         print(f"\n {assistant.get_todos()}")
-
     # Get Birthdays
     elif user_command == "4":
         print("\nYour birthday list: \n")
-        print(f"\n {assistant.get_birthdays()}")
         for name in assistant.get_birthdays():
             print(name)
         user_name = input("\nEnter the name to get the birthday: ")  
@@ -60,8 +58,6 @@ How can I help you?
             print(name)
         remove_name = input("\nEnter the name to be deleted: ") 
         print(f"\n{assistant.remove_birthday(remove_name)}")
-
-
 
     elif user_command == "exit" or user_command == "Exit" or user_command == "EXIT":
         done = True
