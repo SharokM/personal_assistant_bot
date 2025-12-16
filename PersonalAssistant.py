@@ -1,7 +1,8 @@
 class PersonalAssistant:
-
-  def __init__(self, todos):
+  def __init__(self, todos, birthdays):
+    
     self.todos = todos 
+    self.birthdays = birthdays
 
   def add_todo(self, new_item):
     self.todos.append(new_item)
@@ -10,33 +11,36 @@ class PersonalAssistant:
     if todo_item in self.todos:
       index = self.todos.index(todo_item)
       self.todos.pop(index)
+      return f"\n{todo_item} was successfully removed from to-do list."
     else:
-      print("Item not found in to-do list.")
+      return "Item not found in to-do list."
 
   def get_todos(self):
     return self.todos
 
+  def get_birthdays(self):
+    return self.birthdays
+
   def get_birthday(self, name):
-    if (name.lower() == "robin"):
-      print("Robin's birthday in July 4th. Remember to buy a gift!")
-    elif (name.lower() == "alice"):
-      print(
-          "Alice's birthday is on December 12th. Don't forget to send her a card!"
-      )
-    elif (name.lower() == "john"):
-      print("John's birthday is on March 22nd. Maybe plan a surprise party!")
-    elif (name.lower() == "emma"):
-      print(
-          "Emma's birthday is on September 15th. Consider getting her flowers & chocolates!"
-      )
-    elif (name.lower() == "Kwesi"):
-      print(
-          "Kwesi's birthday is on November 30th. Get him a replacement for the lunch you ate out of the work fridge?"
-      )
+    if name in self.birthdays:
+      return f"\n{name}'s birthday is on {self.birthdays[name]}"
     else:
-      print(
-          "Sorry, I don't have information on that person's birthday. Please try adding more people to the list, or search another name."
-      )
+      return f"\nNo birthday found with {name}! Please add it."
+
+  def add_birthday(self, name, date):
+    if name in self.birthdays:
+      return f"\n{name}'s details have already been added."
+    else:
+      self.birthdays[name] = date
+      return f"\n{name}'s birthday was successfully added."
+
+  def remove_birthday(self, name):
+    if name in self.birthdays:
+      self.birthdays.pop(name)
+      return f"\n{name}'s birthday was successfully removed."
+    else:
+      return "Error occurred while removing the birthday, please try again later."
+
 
   def get_contact(self, name):
     if name in self.contacts:
@@ -45,13 +49,4 @@ class PersonalAssistant:
       return 'Not Found'
 
 
-# assistant = PersonalAssistant()
-# assistant.add_todo("Finish the react project")
-# assistant.add_todo("Email the project report")
-# assistant.add_todo("Scrum Meeting at 10 AM")
-# assistant.remove_todo("Email the project report")
-# assistant.add_todo("Clear schedule for team lunch on Friday")
-# print(assistant.get_contact("bob"))
-# print(assistant.get_contact("Wilfred II"))
-# print(assistant.get_todos())
-# print(assistant.get_birthday("Robin"))
+
