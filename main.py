@@ -2,10 +2,11 @@ import json
 from PersonalAssistant import PersonalAssistant
 
 
-with open("todo.json", "r") as todos, open("birthdays.json", "r") as birthdays:
+with open("todo.json", "r") as todos, open("birthdays.json", "r") as birthdays, open("contacts.json", "r") as contacts:
     todo_list = json.load(todos)
     birthday_list = json.load(birthdays)
-    assistant = PersonalAssistant(todo_list, birthday_list)
+    contact_list = json.load(contacts)
+    assistant = PersonalAssistant(todo_list, birthday_list, contact_list)
 
 done = False
 
@@ -21,6 +22,10 @@ How can I help you?
     4: Get Birthdays
     5: Add Birthday
     6: Remove Birthday
+    **** Contacts *****
+    7. Get a Specific Contact
+    8. Add a New Contact
+    9. Delete a Contact
 
     Select a number or type 'Exit' to quit: 
     
@@ -51,13 +56,33 @@ How can I help you?
         birthday = input("Their birthday e.g. 01/01/1901: ")
         print(assistant.add_birthday(name_to_add, birthday))
         print(f"\n{name_to_add}'s birthday has been added!")   
-       # Remove Birthdays
+    # Remove Birthdays
     elif user_command == "6":
         print("\nRemove a birthday")
         for name in assistant.get_birthdays():
             print(name)
         remove_name = input("\nEnter the name to be deleted: ") 
         print(f"\n{assistant.remove_birthday(remove_name)}")
+    # Get Contacts
+    elif user_command == "7":
+        print("\nYour contact list: \n")
+        for name in assistant.get_contacts():
+            print(name)
+        contact_name = input("\nEnter the name to get the contact details: ")
+        print(assistant.get_contact(contact_name))
+    # Add Contacts
+    elif user_command == "8":
+        name = input("\nEnter new contact name: ")
+        title = input("\nEnter contact's job title: ")   
+        print({assistant.add_contact(name, title)})
+        print(f"\n{name}'s contact has been added!")
+    # Delete Contacts
+    elif user_command == "9":
+        print("\nYour contact list: ")
+        for name in assistant.get_contacts():
+            print(name)
+        contact_to_delete = input("\nEnter name to delete from contacts: ")
+        print(f"\n{assistant.remove_contact(contact_to_delete)}")
 
     elif user_command == "exit" or user_command == "Exit" or user_command == "EXIT":
         done = True
@@ -67,7 +92,9 @@ How can I help you?
 
 
 
-with open("todo.json", "w") as write_todos, open("birthdays.json", "w") as write_birthdays:
+with open("todo.json", "w") as write_todos, open("birthdays.json", "w") as write_birthdays, open("contacts.json", "w") as write_contacts:
     json.dump(assistant.get_birthdays(), write_birthdays)
     json.dump(assistant.get_todos(), write_todos)
+    json.dump(assistant.get_contacts(), write_contacts)
+
 
